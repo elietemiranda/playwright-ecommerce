@@ -3,12 +3,14 @@ import { HomePage } from '../pages/home.page';
 import { LoginPage } from '../pages/login.page';
 import { SignupPage } from '../pages/signup.page';
 import { ProductsPage } from '../pages/products.page';
+import { CartPage } from '../pages/cart.page';
 
 type Fixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
   signupPage: SignupPage;
   productsPage: ProductsPage;
+  cartPage: CartPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -33,6 +35,11 @@ export const test = base.extend<Fixtures>({
     const productsPage = new ProductsPage(page);
     await productsPage.navigate();
     await use(productsPage);
+  },
+
+  cartPage: async ({ page }, use) => {
+    const cartPage = new CartPage(page);
+    await use(cartPage);
   },
 });
 
