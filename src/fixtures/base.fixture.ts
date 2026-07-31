@@ -2,11 +2,13 @@ import { test as base } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
 import { LoginPage } from '../pages/login.page';
 import { SignupPage } from '../pages/signup.page';
+import { ProductsPage } from '../pages/products.page';
 
 type Fixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
   signupPage: SignupPage;
+  productsPage: ProductsPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -25,6 +27,12 @@ export const test = base.extend<Fixtures>({
   signupPage: async ({ page }, use) => {
     const signupPage = new SignupPage(page);
     await use(signupPage);
+  },
+
+  productsPage: async ({ page }, use) => {
+    const productsPage = new ProductsPage(page);
+    await productsPage.navigate();
+    await use(productsPage);
   },
 });
 
