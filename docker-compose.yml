@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: playwright-ecommerce
+    container_name: playwright-ecommerce-tests
+    volumes:
+      # Mount reports so they are accessible on the host after the run
+      - ./reports:/app/reports
+      - ./allure-results:/app/allure-results
+      - ./test-results:/app/test-results
+    environment:
+      - CI=true
+    command: npx playwright test --reporter=list,allure-playwright
+
+  smoke:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: playwright-ecommerce
+    container_name: playwright-ecommerce-smoke
+    volumes:
+      - ./reports:/app/reports
+      - ./allure-results:/app/allure-results
+      - ./test-results:/app/test-results
+    environment:
+      - CI=true
+    command: npx playwright test --grep @smoke --reporter=list,allure-playwright
+
+  regression:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: playwright-ecommerce
+    container_name: playwright-ecommerce-regression
+    volumes:
+      - ./reports:/app/reports
+      - ./allure-results:/app/allure-results
+      - ./test-results:/app/test-results
+    environment:
+      - CI=true
+    command: npx playwright test --grep @regression --reporter=list,allure-playwright
